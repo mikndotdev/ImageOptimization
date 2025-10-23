@@ -29,6 +29,11 @@ app.get('/:path', async ({ query, params }) => {
     const imgproxyUrl = new URL(ImgproxyURL + imgproxyPath);
 
     const data = await fetch(imgproxyUrl.href);
+
+    if (!data.ok) {
+        return new Response("Error fetching image", { status: data.status });
+    }
+
     return new Response(data.body, {
         headers: {
             'Content-Type': data.headers.get('Content-Type') || 'image/jpeg'
